@@ -982,7 +982,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
+            /* padding: 1rem; */
             transition: all 0.3s;
         }
 
@@ -1004,17 +1004,13 @@
             opacity: 0;
         }
 
-        .modal-content {
-            background-color: #ffffff2b;
-            border-radius: 1rem;
-            padding: 2rem;
+        #camera-modal .modal-content {
+            background: black;
+            border-radius: 0;
             width: 100%;
-            max-width: 28rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--medium-gray);
-            transform: scale(1);
-            transition: all 0.3s;
+            height: 100%;
         }
+
 
         .modal-overlay.hidden .modal-content {
             transform: scale(0.95);
@@ -1048,6 +1044,17 @@
         .modal-subtitle {
             color: #fff;
             font-size: 0.875rem;
+        }
+
+        #camera-preview{
+            width: 100%;
+            height: 100%;
+        }
+
+        #capture-photo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .auth-error {
@@ -1509,6 +1516,84 @@
             color: #B99A4F;
         }
 
+        .capture-photo-section{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ===== WhatsApp-style Camera UI ===== */
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: black;
+            overflow: hidden;
+        }
+
+        /* Video fills screen, keeps aspect like WhatsApp */
+        #camera-preview {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;   /* THIS is critical */
+        }
+
+        /* Bottom controls bar */
+        .camera-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.6),
+                rgba(0, 0, 0, 0)
+            );
+        }
+
+        /* WhatsApp-like capture button */
+        .capture-btn {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 6px solid white;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Inner white circle */
+        .capture-btn::after {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+
+        /* Tap feedback */
+        .capture-btn:active {
+            transform: scale(0.92);
+        }
+
+        #camera-modal {
+            touch-action: none;
+        }
+
+        #camera-preview {
+            transform: scaleX(1);
+        }
+
+
+
+
     </style>
 </head>
 
@@ -1623,11 +1708,15 @@
     </div>
 
     <div id="camera-modal" class="modal-overlay hidden">
-        <div class="modal-content">
+        <div class="camera-container">
             <video id="camera-preview" autoplay playsinline></video>
-            <button id="capture-photo">Capture</button>
+
+            <div class="camera-controls">
+                <button id="capture-photo" class="capture-btn"></button>
+            </div>
         </div>
     </div>
+
 
     <!-- Welcome Landing -->
     <div id="landing-wrapper">
@@ -1755,8 +1844,8 @@
 
     <script>
         // API Configuration
-        const API_BASE = 'https://api.keralahome.in';
-        //const API_BASE = 'http://127.0.0.1:8006/';
+        // const API_BASE = 'https://api.keralahome.in';
+        const API_BASE = 'http://127.0.0.1:8006/';
         // const API_TOKEN = "b5cebd205000d8dd8469d84f9f5fc7dcfcdf7c6f";
         
         // Get API token from localStorage or use empty string
@@ -2043,17 +2132,36 @@
             startCamera();
         };
 
+        // async function startCamera() {
+        //     cameraModal.classList.remove('hidden');
+        //     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        //     cameraPreview.srcObject = stream;
+        // }
+
         async function startCamera() {
             cameraModal.classList.remove('hidden');
-        
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: { exact: "environment" }
-                }
-            });
-        
-            cameraPreview.srcObject = stream;
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" },
+                    audio: false
+                });
+
+                cameraPreview.srcObject = stream;
+                await cameraPreview.play();
+
+            } catch (err) {
+                console.error("Camera access failed:", err);
+
+                pushMessage(
+                    "Unable to access the camera. Please check permissions or try another device.",
+                    "bot"
+                );
+
+                cameraModal.classList.add('hidden');
+            }
         }
+
 
 
 
@@ -2087,10 +2195,15 @@
 
         function stopCamera() {
             const stream = cameraPreview.srcObject;
-            stream.getTracks().forEach(track => track.stop());
-            cameraModal.classList.add('hidden');
+
+            if (stream && stream.getTracks) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+
             cameraPreview.srcObject = null;
+            cameraModal.classList.add('hidden');
         }
+
 
 
         async function mergeImagesToPdf(images) {
