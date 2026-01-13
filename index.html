@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Insurance Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Prevent welcome screen flash when chatId exists in URL -->
     <script>
         // Run immediately to prevent flash of welcome screen
@@ -1468,6 +1469,43 @@
                 transform: translateY(0);
             }
         }
+
+        /* Attachment Popup */
+
+        .attachment-popup {
+            position: absolute;
+            bottom: 60px;
+            left: 10px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,.15);
+            padding: 6px;
+            z-index: 9999;
+        }
+
+        .attachment-popup button {
+            display: block;
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .attachment-popup button:hover {
+            background: #f3f4f6;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .attachment-icon{
+            color: #B99A4F;
+        }
+
     </style>
 </head>
 
@@ -1581,6 +1619,13 @@
         </div>
     </div>
 
+    <div id="camera-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <video id="camera-preview" autoplay playsinline></video>
+            <button id="capture-photo">Capture</button>
+        </div>
+    </div>
+
     <!-- Welcome Landing -->
     <div id="landing-wrapper">
         <div class="landing-page">
@@ -1655,6 +1700,11 @@
         <!-- Input Area -->
         <div class="input-area">
             <div class="input-row">
+                <div id="attachment-popup" class="attachment-popup hidden">
+                    <button id="open-file-option"><i class="fa-solid fa-folder attachment-icon"></i> Open file</button>
+                    <button id="open-camera-option"><i class="fa-solid fa-camera attachment-icon"></i> Camera</button>
+                </div>
+
                 <!-- File Attachment Button -->
                 <button id="file-button" type="button" ClientIDMode="Static" class="input-button file-button" title="Upload Emirates ID Front">
                     <i class="ri-attachment-line"></i>
@@ -1702,8 +1752,8 @@
 
     <script>
         // API Configuration
-        const API_BASE = 'https://api.keralahome.in';
-        //const API_BASE = 'http://127.0.0.1:8006/';
+        // const API_BASE = 'https://api.keralahome.in';
+        const API_BASE = 'http://127.0.0.1:8006/';
         // const API_TOKEN = "b5cebd205000d8dd8469d84f9f5fc7dcfcdf7c6f";
         
         // Get API token from localStorage or use empty string
@@ -1801,6 +1851,30 @@
             isInitialized: false,
             animatedMessageIds: new Set()
         };
+
+        let capturedImages = [];
+        let currentCaptureSide = 'front'; // 'front' → 'back'
+
+        // fileButton.addEventListener('click', () => {
+        //     attachmentPopup.classList.toggle('hidden');
+        // });
+
+        // openFileOption.onclick = () => {
+        //     attachmentPopup.classList.add('hidden');
+        //     fileInput.click();
+        // };
+
+//         openCameraOption.onclick = async () => {
+//   attachmentPopup.classList.add('hidden');
+//             cameraModal.classList.remove('hidden');
+
+//             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+//             cameraPreview.srcObject = stream;
+//         };
+
+        
+        
+
 
         const gsapAnimations = {
             initLanding: () => {
@@ -1941,6 +2015,95 @@
             recordingStatus: document.getElementById('recording-status'),
             recordingText: document.getElementById('recording-text')
         };
+
+        const attachmentPopup = document.getElementById('attachment-popup');
+        const openFileOption = document.getElementById('open-file-option');
+        const openCameraOption = document.getElementById('open-camera-option');
+        const cameraModal = document.getElementById('camera-modal');
+        const cameraPreview = document.getElementById('camera-preview');
+        const capturePhoto = document.getElementById('capture-photo');
+
+        elements.fileButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            attachmentPopup.classList.toggle('hidden');
+        });
+
+
+        openFileOption.onclick = () => {
+            attachmentPopup.classList.add('hidden');
+            elements.fileInput.click();
+        };
+
+        openCameraOption.onclick = () => {
+            attachmentPopup.classList.add('hidden');
+            startCamera();
+        };
+
+        async function startCamera() {
+            cameraModal.classList.remove('hidden');
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            cameraPreview.srcObject = stream;
+        }
+
+
+        capturePhoto.onclick = async () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = cameraPreview.videoWidth;
+            canvas.height = cameraPreview.videoHeight;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(cameraPreview, 0, 0);
+
+            const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
+
+            const fileName = currentCaptureSide === 'front'
+                ? 'emirates_id_front.jpg'
+                : 'emirates_id_back.jpg';
+
+            const file = new File([blob], fileName, { type: 'image/jpeg' });
+            capturedImages.push(file);
+
+            if (currentCaptureSide === 'front') {
+                currentCaptureSide = 'back';
+                alert('Now capture the back side of your Emirates ID');
+                return;
+            }
+
+            // Done
+            stopCamera();
+            uploadCapturedImages();
+        };
+
+        function stopCamera() {
+            const stream = cameraPreview.srcObject;
+            stream.getTracks().forEach(track => track.stop());
+            cameraModal.classList.add('hidden');
+            cameraPreview.srcObject = null;
+        }
+
+
+        function uploadCapturedImages() {
+            const formData = new FormData();
+
+            capturedImages.forEach(file => {
+                formData.append('files', file);
+            });
+
+            // SAME endpoint
+            fetch('/emirates-id/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${getApiToken()}`
+                },
+                body: formData
+            });
+
+            // reset state
+            capturedImages = [];
+            currentCaptureSide = 'front';
+        }
+
 
         function handleKeyPress(e) {
             if (e.key === "Enter" && !e.shiftKey) {
@@ -2495,7 +2658,7 @@
             });
 
 
-            elements.fileButton.addEventListener('click', () => elements.fileInput.click());
+            // elements.fileButton.addEventListener('click', () => elements.fileInput.click());
             elements.fileInput.addEventListener('change', onFileChange);
             elements.mobileInput.addEventListener('input', handleMobileInputChange);
             elements.textInput.addEventListener('input', handleTextInputChange);
