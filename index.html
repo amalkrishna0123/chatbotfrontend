@@ -1753,8 +1753,8 @@
 
     <script>
         // API Configuration
-        const API_BASE = 'https://api.keralahome.in';
-        //const API_BASE = 'http://127.0.0.1:8006/';
+        // const API_BASE = 'https://api.keralahome.in';
+        const API_BASE = 'http://127.0.0.1:8006/';
         // const API_TOKEN = "b5cebd205000d8dd8469d84f9f5fc7dcfcdf7c6f";
         
         // Get API token from localStorage or use empty string
@@ -2085,13 +2085,21 @@
 
 
         function uploadCapturedImages() {
+            if (!state.sessionId) {
+                pushMessage("Upload failed: missing session.", "bot");
+                return;
+            }
+
             const formData = new FormData();
 
+            // IMPORTANT: use "file" not "files"
             capturedImages.forEach(file => {
-                formData.append('files', file);
+                formData.append("file", file);
             });
 
-            // SAME endpoint
+            // REQUIRED by backend
+            formData.append("session_id", state.sessionId);
+
             fetch(`${API_BASE}/api/emirates-id/`, {
                 method: 'POST',
                 headers: {
@@ -2104,6 +2112,7 @@
             capturedImages = [];
             currentCaptureSide = 'front';
         }
+
 
 
         function handleKeyPress(e) {
