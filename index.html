@@ -2148,7 +2148,8 @@
                 formData.append("file", pdfFile);
                 formData.append("session_id", state.sessionId);
 
-                await handleSingleUpload(formData); // reuse your existing logic
+                await handleFileUpload(pdfFile);
+                // reuse your existing logic
 
             } catch (err) {
                 console.error("Merge/upload failed:", err);
