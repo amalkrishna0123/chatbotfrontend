@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Insurance Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <!-- Prevent welcome screen flash when chatId exists in URL -->
     <script>
         // Run immediately to prevent flash of welcome screen
@@ -2084,34 +2086,79 @@
         }
 
 
-        function uploadCapturedImages() {
+        async function mergeImagesToPdf(images) {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            for (let i = 0; i < images.length; i++) {
+                const imgFile = images[i];
+                const imgData = await fileToDataURL(imgFile);
+
+                const img = new Image();
+                img.src = imgData;
+
+                await new Promise(resolve => (img.onload = resolve));
+
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = (img.height * pageWidth) / img.width;
+
+                if (i > 0) pdf.addPage();
+                pdf.addImage(img, 'JPEG', 0, 0, pageWidth, pageHeight);
+            }
+
+            return pdf.output('blob');
+        }
+
+
+        function fileToDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+
+
+
+        async function uploadCapturedImages() {
             if (!state.sessionId) {
                 pushMessage("Upload failed: missing session.", "bot");
                 return;
             }
 
-            const formData = new FormData();
+            if (capturedImages.length < 2) {
+                pushMessage("Please capture both front and back of Emirates ID.", "bot");
+                return;
+            }
 
-            // IMPORTANT: use "file" not "files"
-            capturedImages.forEach(file => {
-                formData.append("file", file);
-            });
+            try {
+                pushMessage("Merging Emirates ID images...", "bot");
 
-            // REQUIRED by backend
-            formData.append("session_id", state.sessionId);
+                const pdfBlob = await mergeImagesToPdf(capturedImages);
 
-            fetch(`${API_BASE}/api/emirates-id/`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Token ${getApiToken()}`
-                },
-                body: formData
-            });
+                const pdfFile = new File(
+                    [pdfBlob],
+                    "emirates_id_camera.pdf",
+                    { type: "application/pdf" }
+                );
 
-            // reset state
-            capturedImages = [];
-            currentCaptureSide = 'front';
+                const formData = new FormData();
+                formData.append("file", pdfFile);
+                formData.append("session_id", state.sessionId);
+
+                await handleSingleUpload(formData); // reuse your existing logic
+
+            } catch (err) {
+                console.error("Merge/upload failed:", err);
+                pushMessage("Failed to process Emirates ID images.", "bot");
+            } finally {
+                capturedImages = [];
+                currentCaptureSide = "front";
+            }
         }
+
 
 
 
