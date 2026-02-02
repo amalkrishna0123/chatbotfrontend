@@ -446,6 +446,19 @@
 
             <div class="pt-6 pb-6 px-4 md:px-6 input-container-glass">
                 <div class="max-w-3xl mx-auto w-full">
+                    <div id="maf-progress-container" class="hidden mb-4 transition-all duration-500 fade-in">
+                        <div
+                            class="flex justify-between text-[10px] font-bold text-slate-500 mb-2 uppercase tracking-wider">
+                            <span id="maf-progress-text">Question 1 of 9</span>
+                            <span id="maf-progress-percent">0%</span>
+                        </div>
+                        <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                            <div id="maf-progress-bar"
+                                class="h-full bg-brand-500 transition-all duration-500 shadow-[0_0_10px_rgba(185,154,79,0.5)]"
+                                style="width: 0%"></div>
+                        </div>
+                    </div>
+
                     <div id="chat-options-container"
                         class="hidden mb-4 flex flex-wrap gap-2 justify-center md:justify-start">
                     </div>
@@ -650,7 +663,7 @@
         lucide.createIcons();
 
         // --- API CONFIG ---
-        // const API_BASE = 'http://127.0.0.1:8000/api';
+        // const API_BASE = 'http://127.0.0.1:8003/api';
         const API_BASE = 'https://api.keralahome.in/api';
 
 
@@ -700,10 +713,24 @@
                 continue_btn: "Continue",
                 welcome_back: "Welcome back! I’ve restored your previous session for you.",
                 continue_income: "Let’s continue from where you left off. Please select your income range.",
+                confirm_income: "Please confirm your monthly income:",
                 restart_prompt: "Please use the options above to continue your application.",
                 below_4000: "Below 4000 AED",
                 between_4000_5000: "4000 – 5000 AED",
                 above_5000: "Above 5000 AED",
+                fine_check_msg: "Before continuing, please check if there are any fines using the option below.",
+                fine_check_btn: "Fine Check",
+                checking_fines: "Checking for fines...",
+                no_fines_found: "No fines found. You’re good to go.",
+                moh_validation_msg: "Please complete MOH validation by clicking the button below to confirm success.",
+                moh_validation_btn: "MOH Validation",
+                validating_moh: "Validating with MOH...",
+                moh_success: "MOH validation successful.",
+                medical_q_init: "Do you have any pre-existing medical conditions?",
+                maf_q_title: "Medical Questionnaire (MAF)",
+                maf_q_intro: "Please answer the following 9 questions.",
+                yes: "Yes",
+                no: "No",
                 reset_failed: "Oops! We couldn’t reset the session. Please try again.",
                 start_fresh_q: "Start fresh?",
                 start_fresh_msg: "This will clear your current progress and restart the application.",
@@ -739,7 +766,30 @@
                 close_btn: "Close",
                 ai_placeholder: "Ask anything about insurance...",
                 ai_welcome_msg: "Hello! I'm your insurance assistant. Ask me about coverage, company details, or support.",
-                ai_thinking: "Gia is thinking..."
+                ai_thinking: "Gia is thinking...",
+                maf_q1: "Have you ever had any heart or cardiovascular problems?",
+                maf_q2: "Have you ever been diagnosed with diabetes?",
+                maf_q3: "Have you ever had any respiratory problems (e.g., Asthma, COPD)?",
+                maf_q4: "Have you ever had any chronic kidney or liver diseases?",
+                maf_q5: "Have you ever been diagnosed with cancer?",
+                maf_q6: "Have you ever had any neurological problems or strokes?",
+                maf_q7: "Do you have any chronic bone, joint, or muscle problems?",
+                maf_q8: "Have you ever been treated for any mental health or psychiatric conditions?",
+                maf_q9: "Are you currently taking any regular medications?",
+                maf_completed: "Thank you for completing the medical questionnaire.",
+                passport_upload_prompt: "Great. Now, please upload your <b>Passport</b> to continue.",
+                visa_upload_prompt: "Almost there! Please upload your <b>UAE Visa</b>.",
+                btn_upload_passport: "Upload Passport",
+                btn_upload_visa: "Upload Visa",
+                passport_no_label: "Passport No",
+                visa_file_no_label: "File No",
+                eid_no_label: "EID No",
+                passport_label: "Passport",
+                visa_details_title: "Visa Details",
+                passport_details_title: "Passport Details",
+                review_cancelled: "Review cancelled. Please re-upload.",
+                policy_failed: "Policy creation failed: ",
+                question_progress: (c, t) => `Question ${c} of ${t}`
             },
             ml: {
                 welcome: "ഇൻഷുറൻസ് അസിസ്റ്റന്റിലേക്ക് സ്വാഗതം 👋",
@@ -785,10 +835,24 @@
                 continue_btn: "തുടരുക",
                 welcome_back: "വീണ്ടും സ്വാഗതം! നിങ്ങളുടെ മുൻ സെഷൻ പുനഃസ്ഥാപിച്ചിട്ടുണ്ട്.",
                 continue_income: "നമുക്ക് തുടരാം. ദയവായി വരുമാന പരിധി തിരഞ്ഞെടുക്കൂ.",
+                confirm_income: "ദയവായി നിങ്ങളുടെ പ്രതിമാസ വരുമാനം സ്ഥിരീകരിക്കൂ.",
                 restart_prompt: "മുകളിൽ നൽകിയിരിക്കുന്ന ഓപ്ഷനുകൾ ഉപയോഗിച്ച് തുടരൂ.",
                 below_4000: "4000 AED-ൽ താഴെ",
                 between_4000_5000: "4000 – 5000 AED",
                 above_5000: "5000 AED-ക്ക് മുകളിൽ",
+                fine_check_msg: "തുടരുന്നതിന് മുമ്പ്, താഴെയുള്ള ഓപ്ഷൻ ഉപയോഗിച്ച് ഫൈനുകൾ ഉണ്ടോ എന്ന് പരിശോധിക്കുക.",
+                fine_check_btn: "ഫൈൻ പരിശോധന",
+                checking_fines: "ഫൈനുകൾ പരിശോധിക്കുന്നു...",
+                no_fines_found: "ഫൈനുകൾ ഒന്നും കണ്ടെത്തിയില്ല. നിങ്ങൾക്ക് മുന്നോട്ട് പോകാം.",
+                moh_validation_msg: "വിജയം ഉറപ്പാക്കാൻ താഴെയുള്ള ബട്ടൺ ക്ലിക്ക് ചെയ്ത് MOH വാലിഡേഷൻ പൂർത്തിയാക്കുക.",
+                moh_validation_btn: "MOH വാലിഡേഷൻ",
+                validating_moh: "MOH വാലിഡേഷൻ നടക്കുന്നു...",
+                moh_success: "MOH വാലിഡേഷൻ വിജയകരമായി പൂർത്തിയായി.",
+                medical_q_init: "നിങ്ങൾക്ക് നിലവിൽ എന്തെങ്കിലും ആരോഗ്യപ്രശ്നങ്ങളുണ്ടോ?",
+                maf_q_title: "മെഡിക്കൽ ചോദ്യാവലി (MAF)",
+                maf_q_intro: "താഴെ പറയുന്ന 9 ചോദ്യങ്ങൾക്ക് മറുപടി നൽകുക.",
+                yes: "ഉണ്ട്",
+                no: "ഇല്ല",
                 reset_failed: "സെഷൻ റീസെറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കൂ.",
                 start_fresh_q: "പുതുതായി തുടങ്ങണോ?",
                 start_fresh_msg: "ഇത് നിലവിലെ പുരോഗതി മായ്ച്ച് വീണ്ടും തുടങ്ങും.",
@@ -824,7 +888,30 @@
                 close_btn: "അടയ്ക്കുക",
                 ai_placeholder: "ഇൻഷുറൻസിനെക്കുറിച്ച് എന്തും ചോദിക്കൂ...",
                 ai_welcome_msg: "ഹലോ! ഞാൻ നിങ്ങളുടെ ഇൻഷുറൻസ് അസിസ്റ്റന്റാണ്. കവറേജ്, കമ്പനി വിവരങ്ങൾ അല്ലെങ്കിൽ സപ്പോർട്ട് എന്നിവയെക്കുറിച്ച് എന്നോട് ചോദിക്കാം.",
-                ai_thinking: "ജിയ ചിന്തിക്കുന്നു..."
+                ai_thinking: "ജിയ ചിന്തിക്കുന്നു...",
+                maf_q1: "നിങ്ങൾക്ക് എപ്പോഴെങ്കിലും ഹൃദയ അല്ലെങ്കിൽ ഹൃദയവ്യവസ്ഥാ പ്രശ്നങ്ങൾ ഉണ്ടോ?",
+                maf_q2: "നിങ്ങൾക്ക് ഡയബറ്റസ് രോഗം കണ്ടെത്തിയിട്ടുണ്ടോ?",
+                maf_q3: "നിങ്ങൾക്ക് ശ്വാസകോശ സംബന്ധമായ പ്രശ്നങ്ങൾ ഉണ്ടോ (ഉദാഹരണത്തിന് ആസ്ത്മ, COPD)?",
+                maf_q4: "നിങ്ങൾക്ക് വൃക്ക അല്ലെങ്കിൽ കരൾ രോഗങ്ങൾ ഉണ്ടോ?",
+                maf_q5: "നിങ്ങൾക്ക് ക്യാൻസർ രോഗം കണ്ടെത്തിയിട്ടുണ്ടോ?",
+                maf_q6: "നിങ്ങൾക്ക് ന്യൂറോളജിക്കൽ പ്രശ്നങ്ങളോ പക്ഷാഘാതമോ ഉണ്ടായിട്ടുണ്ടോ?",
+                maf_q7: "നിങ്ങൾക്ക് എല്ല്, സന്ധി, അല്ലെങ്കിൽ പേശി സംബന്ധമായ പ്രശ്നങ്ങൾ ഉണ്ടോ?",
+                maf_q8: "നിങ്ങൾ മാനസികാരോഗ്യ പ്രശ്നങ്ങൾക്ക് ചികിത്സ തേടിയിട്ടുണ്ടോ?",
+                maf_q9: "നിങ്ങൾ നിലവിൽ സ്ഥിരമായി മരുന്നുകൾ കഴിക്കുന്നുണ്ടോ?",
+                maf_completed: "മെഡിക്കൽ ചോദ്യാവലി പൂർത്തിയാക്കിയതിന് നന്ദി.",
+                passport_upload_prompt: "നന്ദി. ഇനി തുടരാൻ, ദയവായി നിങ്ങളുടെ <b>പാസ്‌പോർട്ട്</b> അപ്‌ലോഡ് ചെയ്യൂ.",
+                visa_upload_prompt: "അവസാന ഘട്ടത്തിലേക്ക്! ദയവായി നിങ്ങളുടെ <b>UAE വിസ</b> അപ്‌ലോഡ് ചെയ്യൂ.",
+                btn_upload_passport: "പാസ്‌പോർട്ട് അപ്‌ലോഡ് ചെയ്യുക",
+                btn_upload_visa: "വിസ അപ്‌ലോഡ് ചെയ്യുക",
+                passport_no_label: "പാസ്‌പോർട്ട് നമ്പർ",
+                visa_file_no_label: "ഫയൽ നമ്പർ",
+                eid_no_label: "EID നമ്പർ",
+                passport_label: "പാസ്‌പോർട്ട്",
+                visa_details_title: "വിസ വിവരങ്ങൾ",
+                passport_details_title: "പാസ്‌പോർട്ട് വിവരങ്ങൾ",
+                review_cancelled: "പരിശോധന റദ്ദാക്കി. ദയവായി വീണ്ടും അപ്‌ലോഡ് ചെയ്യുക.",
+                policy_failed: "പോളിസി സൃഷ്ടിക്കുന്നത് പരാജയപ്പെട്ടു: ",
+                question_progress: (c, t) => `ചോദ്യം ${c} / ${t}`
             },
             ar: {
                 welcome: "مرحبًا بك 👋 في مساعد التأمين",
@@ -870,10 +957,24 @@
                 continue_btn: "متابعة",
                 welcome_back: "مرحبًا بعودتك! لقد قمنا باستعادة جلستك السابقة.",
                 continue_income: "لنُكمل من حيث توقفت. يرجى اختيار نطاق الدخل.",
+                confirm_income: "يرجى تأكيد دخلك الشهري:",
                 restart_prompt: "يرجى استخدام الخيارات أعلاه لمتابعة الطلب.",
                 below_4000: "أقل من 4000 درهم",
                 between_4000_5000: "4000 – 5000 درهم",
                 above_5000: "أكثر من 5000 درهم",
+                fine_check_msg: "قبل المتابعة، يرجى التحقق من وجود أي غرامات باستخدام الخيار أدناه.",
+                fine_check_btn: "فحص الغرامات",
+                checking_fines: "جاري التحقق من الغرامات...",
+                no_fines_found: "لم يتم العثور على غرامات. يمكنك المتابعة.",
+                moh_validation_msg: "يرجى إكمال التحقق من وزارة الصحة بالنقر على الزر أدناه لتأكيد النجاح.",
+                moh_validation_btn: "التحقق من وزارة الصحة (MOH)",
+                validating_moh: "جاري التحقق مع وزارة الصحة...",
+                moh_success: "تم التحقق من وزارة الصحة بنجاح.",
+                medical_q_init: "هل لديك أي حالات طبية سابقة؟",
+                maf_q_title: "الاستبيان الطبي (MAF)",
+                maf_q_intro: "يرجى الإجابة على الأسئلة التسعة التالية.",
+                yes: "نعم",
+                no: "لا",
                 reset_failed: "لم نتمكن من إعادة تعيين الجلسة. يرجى المحاولة مرة أخرى.",
                 start_fresh_q: "البدء من جديد؟",
                 start_fresh_msg: "سيؤدي ذلك إلى مسح التقدم الحالي وبدء الطلب من جديد.",
@@ -909,7 +1010,30 @@
                 close_btn: "إغلاق",
                 ai_placeholder: "اسألني أي شيء عن التأمين...",
                 ai_welcome_msg: "أهلاً بك! أنا مساعد التأمين الخاص بك. اسألني عن التغطية، أو تفاصيل الشركة، أو الدعم الفني.",
-                ai_thinking: "جيا تفكر..."
+                ai_thinking: "جيا تفكر...",
+                maf_q1: "هل عانيت من أي مشاكل في القلب أو الأوعية الدموية؟",
+                maf_q2: "هل تم تشخيصك بمرض السكري؟",
+                maf_q3: "هل عانيت من أي مشاكل في الجهاز التنفسي (مثل الربو)؟",
+                maf_q4: "هل لديك أي أمراض مزمنة في الكلى أو الكبد؟",
+                maf_q5: "هل تم تشخيصك بالسرطان؟",
+                maf_q6: "هل عانيت من أي مشاكل عصبية أو سكتات دماغية؟",
+                maf_q7: "هل لديك أي مشاكل مزمنة في العظام أو المفاصل أو العضلات؟",
+                maf_q8: "هل تلقيت علاجًا لأي مشاكل نفسية؟",
+                maf_q9: "هل تتناول أي أدوية بانتظام حاليًا؟",
+                maf_completed: "شكراً لإكمال الاستبيان الطبي.",
+                passport_upload_prompt: "عظيم. الآن، يرجى تحميل <b>جواز السفر</b> للمتابعة.",
+                visa_upload_prompt: "أوشكنا على الانتهاء! يرجى تحميل <b>تأشيرة الإقامة</b>.",
+                btn_upload_passport: "تحميل جواز السفر",
+                btn_upload_visa: "تحميل التأشيرة",
+                passport_no_label: "رقم جواز السفر",
+                visa_file_no_label: "رقم الملف",
+                eid_no_label: "رقم الهوية",
+                passport_label: "جواز السفر",
+                visa_details_title: "تفاصيل التأشيرة",
+                passport_details_title: "تفاصيل جواز السفر",
+                review_cancelled: "تم إلغاء المراجعة. يرجى إعادة التحميل.",
+                policy_failed: "فشل إنشاء البوليصة: ",
+                question_progress: (c, t) => `السؤال ${c} من ${t}`
             },
             hi: {
                 welcome: "इंश्योरेंस असिस्टेंट में आपका स्वागत है 👋",
@@ -955,10 +1079,24 @@
                 continue_btn: "जारी रखें",
                 welcome_back: "वापसी पर स्वागत है! आपका पिछला सत्र बहाल कर दिया गया है।",
                 continue_income: "जहाँ से रुके थे, वहीं से आगे बढ़ते हैं। कृपया आय सीमा चुनें।",
+                confirm_income: "कृपया अपना मासिक आय पुष्टि करें:",
                 restart_prompt: "आवेदन जारी रखने के लिए ऊपर दिए गए विकल्पों का उपयोग करें।",
                 below_4000: "4000 AED से कम",
                 between_4000_5000: "4000 – 5000 AED",
                 above_5000: "5000 AED से अधिक",
+                fine_check_msg: "जारी रखने से पहले, कृपया नीचे दिए गए विकल्प का उपयोग करके देखें कि क्या कोई जुर्माना (fine) है।",
+                fine_check_btn: "जुर्माना जाँच (Fine Check)",
+                checking_fines: "जुर्माने की जाँच की जा रही है...",
+                no_fines_found: "कोई जुर्माना नहीं मिला। आप आगे बढ़ सकते हैं।",
+                moh_validation_msg: "सफलता की पुष्टि करने के लिए कृपया नीचे दिए गए बटन पर क्लिक करके MOH सत्यापन पूरा करें।",
+                moh_validation_btn: "MOH सत्यापन",
+                validating_moh: "MOH के साथ सत्यापन किया जा रहा है...",
+                moh_success: "MOH सत्यापन सफल रहा।",
+                medical_q_init: "क्या आपको पहले से कोई चिकित्सीय स्थिति (pre-existing medical condition) है?",
+                maf_q_title: "मेडिकल प्रश्नावली (MAF)",
+                maf_q_intro: "कृपया नीचे दिए गए 9 प्रश्नों के उत्तर दें।",
+                yes: "हाँ",
+                no: "नहीं",
                 reset_failed: "सत्र रीसेट नहीं हो सका। कृपया दोबारा प्रयास करें।",
                 start_fresh_q: "फिर से शुरू करें?",
                 start_fresh_msg: "इससे आपकी मौजूदा प्रगति मिट जाएगी और प्रक्रिया दोबारा शुरू होगी।",
@@ -994,7 +1132,30 @@
                 close_btn: "बंद करें",
                 ai_placeholder: "बीमा के बारे में कुछ भी पूछें...",
                 ai_welcome_msg: "नमस्ते! मैं आपका इंश्योरेंस असिस्टेंट हूँ। मुझसे कवरेज, कंपनी विवरण या सहायता के बारे में पूछें।",
-                ai_thinking: "जिया सोच रही है..."
+                ai_thinking: "जिया सोच रही है...",
+                maf_q1: "क्या आपको कभी दिल या हृदय संबंधी कोई समस्या हुई है?",
+                maf_q2: "क्या आपको कभी मधुमेह (Diabetes) का पता चला है?",
+                maf_q3: "क्या आपको कभी श्वसन संबंधी कोई समस्या (जैसे अस्थमा) हुई है?",
+                maf_q4: "क्या आपको गुर्दे या लीवर की कोई पुरानी बीमारी है?",
+                maf_q5: "क्या आपको कभी कैंसर का पता चला है?",
+                maf_q6: "क्या आपको कभी कोई न्यूरोलॉजिकल समस्या या स्ट्रोक हुआ है?",
+                maf_q7: "क्या आपको हड्डियों, जोड़ों या मांसपेशियों की कोई पुरानी समस्या है?",
+                maf_q8: "क्या आपने कभी किसी मानसिक स्वास्थ्य समस्या का इलाज कराया है?",
+                maf_q9: "क्या आप वर्तमान में कोई नियमित दवा ले रहे हैं?",
+                maf_completed: "मेडिकल प्रश्नावली पूरी करने के लिए धन्यवाद।",
+                passport_upload_prompt: "बहुत बढ़िया। अब, कृपया जारी रखने के लिए अपना <b>पासपोर्ट</b> अपलोड करें।",
+                visa_upload_prompt: "बस हो गया! कृपया अपना <b>UAE वीज़ा</b> अपलोड करें।",
+                btn_upload_passport: "पासपोर्ट अपलोड करें",
+                btn_upload_visa: "वीज़ा अपलोड करें",
+                passport_no_label: "पासपोर्ट नंबर",
+                visa_file_no_label: "फ़ाइल नंबर",
+                eid_no_label: "EID नंबर",
+                passport_label: "पासपोर्ट",
+                visa_details_title: "वीज़ा विवरण",
+                passport_details_title: "पासपोर्ट विवरण",
+                review_cancelled: "समीक्षा रद्द कर दी गई। कृपया पुन: अपलोड करें।",
+                policy_failed: "पॉलिसी निर्माण विफल: ",
+                question_progress: (c, t) => `प्रश्न ${c} / ${t}`
             },
             ur: {
                 welcome: "انشورنس اسسٹنٹ میں خوش آمدید 👋",
@@ -1040,10 +1201,24 @@
                 continue_btn: "جاری رکھیں",
                 welcome_back: "دوبارہ خوش آمدید! آپ کا پچھلا سیشن بحال کر دیا گیا ہے۔",
                 continue_income: "جہاں سے آپ رکے تھے وہیں سے آگے بڑھتے ہیں۔ براہِ کرم آمدنی کی حد منتخب کریں۔",
+                confirm_income: "براہِ کرم اپنی ماہانہ آمدنی کی تصدیق کریں:",
                 restart_prompt: "درخواست جاری رکھنے کے لیے اوپر دیے گئے اختیارات استعمال کریں۔",
                 below_4000: "4000 AED سے کم",
                 between_4000_5000: "4000 – 5000 AED",
                 above_5000: "5000 AED سے زیادہ",
+                fine_check_msg: "جاری رکھنے سے پہلے، براہ کرم نیچے دیے گئے آپشن کا استعمال کرتے ہوئے چیک کریں کہ آیا کوئی جرمانہ (fine) تو نہیں ہے۔",
+                fine_check_btn: "جرمانہ چیک کریں",
+                checking_fines: "جرمانے کی جانچ کی جا رہی ہے...",
+                no_fines_found: "کوئی جرمانہ نہیں ملا۔ آپ آگے بڑھ سکتے ہیں۔",
+                moh_validation_msg: "کامیابی کی تصدیق کے لیے براہ کرم نیچے دیے گئے بٹن پر کلک کر کے MOH کی توثیق مکمل کریں۔",
+                moh_validation_btn: "MOH کی توثیق",
+                validating_moh: "MOH کے ساتھ توثیق کی جا رہی ہے...",
+                moh_success: "MOH کی توثیق کامیاب رہی۔",
+                medical_q_init: "کیا آپ کو پہلے سے کوئی طبی مسئلہ لاحق ہے؟",
+                maf_q_title: "میڈیکل سوالنامہ (MAF)",
+                maf_q_intro: "براہِ کرم درج ذیل 9 سوالات کے جواب دیں۔",
+                yes: "جی ہاں",
+                no: "نہیں",
                 reset_failed: "سیشن ری سیٹ نہیں ہو سکا۔ براہِ کرم دوبارہ کوشش کریں۔",
                 start_fresh_q: "دوبارہ شروع کریں؟",
                 start_fresh_msg: "اس سے موجودہ پیش رفت ختم ہو جائے گی اور عمل دوبارہ شروع ہوگا۔",
@@ -1079,7 +1254,30 @@
                 close_btn: "بند کریں",
                 ai_placeholder: "انشورنس کے بارے میں کچھ بھی پوچھیں...",
                 ai_welcome_msg: "ہیلو! میں آپ کا انشورنس اسسٹنٹ ہوں۔ مجھ سے کوریج، کمپنی کی تفصیلات، یا سپورٹ کے بارے میں پوچھیں۔",
-                ai_thinking: "اورا سوچ رہی ہے..."
+                ai_thinking: "جیا سوچ رہی ہے...",
+                maf_q1: "کیا آپ کو کبھی دل یا قلبی مسائل کا سامنا کرنا پڑا ہے؟",
+                maf_q2: "کیا آپ کو کبھی ذیابیطس (شوگر) کی تشخیص ہوئی ہے؟",
+                maf_q3: "کیا آپ کو کبھی سانس کی کوئی بیماری (جیسے دمہ) ہوئی ہے؟",
+                maf_q4: "کیا آپ کو گردے یا جگر کی کوئی پرانی بیماری ہے؟",
+                maf_q5: "کیا آپ کو کبھی کینسر کی تشخیص ہوئی ہے؟",
+                maf_q6: "کیا آپ کو کبھی کوئی اعصابی مسئلہ یا فالج ہوا ہے؟",
+                maf_q7: "کیا آپ کو ہڈیوں، جوڑوں یا پٹھوں کا کوئی پرانا مسئلہ ہے؟",
+                maf_q8: "کیا آپ نے کبھی کسی دماغی صحت کے مسئلے کا علاج کروایا ہے؟",
+                maf_q9: "کیا آپ فی الحال کوئی باقاعدہ دوا لے رہے ہیں؟",
+                maf_completed: "میڈیکل سوالنامہ مکمل کرنے کا شکریہ۔",
+                passport_upload_prompt: "زبردست۔ اب، جاری رکھنے کے لیے براہِ کرم اپنا <b>پاسپورٹ</b> اپ لوڈ کریں۔",
+                visa_upload_prompt: "تقریباً مکمل! براہِ کرم اپنا <b>UAE ویزا</b> اپ لوڈ کریں۔",
+                btn_upload_passport: "پاسپورٹ اپ لوڈ کریں",
+                btn_upload_visa: "ویزا اپ لوڈ کریں",
+                passport_no_label: "پاسپورٹ نمبر",
+                visa_file_no_label: "فائل نمبر",
+                eid_no_label: "EID نمبر",
+                passport_label: "پاسپورٹ",
+                visa_details_title: "ویزا کی تفصیلات",
+                passport_details_title: "پاسپورٹ کی تفصیلات",
+                review_cancelled: "جائزہ منسوخ کر دیا گیا۔ براہ کرم دوبارہ اپ لوڈ کریں۔",
+                policy_failed: "پالیسی بنانا ناکام رہا: ",
+                question_progress: (c, t) => `سوال ${c} / ${t}`
             }
         };
 
@@ -1344,7 +1542,7 @@
 
         function goBack() {
             if (state.mode !== 'none') {
-                showAlert('confirm', 'Exit Session?', 'Exit current session? Progress may be lost.', (confirmed) => {
+                showAlert('confirm', t('exit_session_q'), t('exit_session_msg'), (confirmed) => {
                     if (confirmed) {
                         state.mode = 'none';
                         showView('view-landing');
@@ -1694,7 +1892,7 @@
                         // Add a resume greeting ONLY if it wasn't the last message
                         const lastMsg = state.chatHistory[state.chatHistory.length - 1];
                         if (!lastMsg.content.includes("Welcome back")) {
-                            addChatBubble("Welcome back! I've restored your previous session.", 'bot');
+                            addChatBubble(t('welcome_back'), 'bot');
                         }
 
                         // Wait a beat before jumping to UI logic to ensure chat is visible
@@ -1717,17 +1915,16 @@
         function resumeFlowLogic() {
             const d = state.insuranceData;
 
-            // Determine where we are based on missing data
-            if (!d.salary_range) {
-                // If we have app but no salary (maybe created early? or bug)
-                // Just restart flow questions but skip creating app again
-                addChatBubble(t('continue_income'), 'bot');
-                askIncome(false);
-                return;
-            }
-
+            // 1. Check for Document / Review Status
             if (d.status === 'Pending OCR' || (d.status === 'In Progress' && d.emirates_id_document)) {
-                // Document uploaded and waiting for review
+                // If we have valid issuing place (confirmed) but no salary -> Ask Income
+                if (d.issuingPlace && d.issuingPlace !== 'Pending' && !d.salary_range) {
+                    addChatBubble(t('continue_income'), 'bot');
+                    askIncomeVerification(d.issuingPlace);
+                    return;
+                }
+
+                // Otherwise, show review form (OCR done but not confirmed, or waiting for review)
                 addChatBubble(t('review_details'), 'bot');
                 setTimeout(() => {
                     document.getElementById('view-review').classList.remove('hidden');
@@ -1737,13 +1934,13 @@
                 return;
             }
 
+            // 2. If no document, ask for upload (Start of new flow)
             if (!d.emirates_id_document) {
-                // Needs upload
                 askUpload();
                 return;
             }
 
-            // Fallback
+            // 3. Fallback / Completed Steps
             addChatBubble(t('restart_prompt'), 'bot');
         }
 
@@ -1809,22 +2006,36 @@
             state.insuranceData.type = val;
 
             if (val === 'Employee') {
-                askIncome();
+                // askIncome(); -> Removed as per new flow
+                createInitialApplication();
             } else {
                 askDependentType();
             }
         }
 
-        function askIncome(isSponsor = false) {
-            const txt = isSponsor ? t('income_sponsor') : t('income_self');
+        function askIncomeVerification(issuingPlace) {
+            const isAbuDhabi = issuingPlace && issuingPlace.toLowerCase().includes('abu dhabi');
+            const txt = t('confirm_income');
+
             showTyping();
             setTimeout(() => {
                 addChatBubble(txt);
-                setInputOptions([
-                    { label: t('below_4000'), value: '<4000' },
-                    { label: t('between_4000_5000'), value: '4000-5000' },
-                    { label: t('above_5000'), value: '>5000' }
-                ], 'handleIncome');
+
+                let options = [];
+                if (isAbuDhabi) {
+                    options = [
+                        { label: t('above_5000'), value: '>5000' }
+                    ];
+                } else {
+                    // Dubai and others
+                    options = [
+                        { label: t('below_4000'), value: '<4000' },
+                        { label: t('between_4000_5000'), value: '4000-5000' },
+                        { label: t('above_5000'), value: '>5000' }
+                    ];
+                }
+
+                setInputOptions(options, 'handleIncome');
             }, 1000);
         }
 
@@ -1843,7 +2054,8 @@
             await addChatBubble(label, 'user');
             hideInputOptions();
             state.insuranceData.depType = val;
-            askIncome(true);
+            // askIncome(true); -> Removed as per new flow
+            createInitialApplication();
         }
 
         window.handleIncome = async (val, label) => {
@@ -1851,8 +2063,17 @@
             hideInputOptions();
             state.insuranceData.salary = val;
 
-            // Create Application on Backend here to start tracking
-            createInitialApplication();
+            // Update salary in backend
+            if (state.insuranceData.applicationId) {
+                try {
+                    await apiCall(`/insurance/applications/${state.insuranceData.applicationId}/`, 'PATCH', {
+                        salary_range: val
+                    });
+                } catch (e) { console.error("Failed to update salary", e); }
+            }
+
+            // Proceed to Fine Check
+            startFineCheck();
         }
 
         async function createInitialApplication() {
@@ -1862,7 +2083,7 @@
                 language: state.insuranceData.lang,
                 application_type: state.insuranceData.type,
                 dependent_type: state.insuranceData.depType || '',
-                salary_range: state.insuranceData.salary,
+                // salary_range: state.insuranceData.salary, -> Can be null now
                 // Partial data - dummy values for required fields that come later
                 emirates_id: 'TEMP-' + Date.now(),
                 full_name: 'Pending Upload',
@@ -1873,6 +2094,10 @@
                 mobile_number: '0000000000',
                 status: 'In Progress'
             };
+
+            if (state.insuranceData.salary) {
+                appData.salary_range = state.insuranceData.salary;
+            }
 
             const res = await apiCall('/insurance/applications/', 'POST', appData);
 
@@ -1907,8 +2132,7 @@
             document.querySelector('.input-container-glass').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function simulateUpload() {
-            // Create hidden file input
+        function simulateUpload(type = 'eid') {
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*,application/pdf';
@@ -1928,43 +2152,56 @@
                 }
 
                 try {
-                    const res = await apiCall('/insurance/process-ocr/', 'POST', formData, true);
+                    let endpoint = '/insurance/process-ocr/';
+                    if (type === 'passport') endpoint = '/passport/';
+                    if (type === 'visa') endpoint = '/uae-visa/';
+
+                    const res = await apiCall(endpoint, 'POST', formData, true);
 
                     if (res.success) {
-                        state.insuranceData = {
-                            ...state.insuranceData,
-                            ...res.data,
-                            eid: res.data.emirates_id, // Map backend keys to frontend state
-                            name: res.data.full_name,
-                            expiry: res.data.expiry_date,
-                            issuingPlace: res.data.issuing_place
-                        };
+                        state.insuranceData.uploadType = type;
+
+                        if (type === 'eid') {
+                            state.insuranceData = {
+                                ...state.insuranceData,
+                                ...res.data,
+                                eid: res.data.emirates_id,
+                                name: res.data.full_name,
+                                expiry: res.data.expiry_date,
+                                issuingPlace: res.data.issuing_place
+                            };
+                        } else if (type === 'passport') {
+                            state.insuranceData.passport_no = res.data.passport_number;
+                            state.insuranceData.passport_name = res.data.full_name;
+                            state.insuranceData.passport_expiry = res.data.expiry_date;
+                            state.insuranceData.passport_nationality = res.data.nationality;
+                            state.insuranceData.passport_dob = res.data.dob;
+                        } else if (type === 'visa') {
+                            state.insuranceData.visa_no = res.data.file_number;
+                            state.insuranceData.visa_name = res.data.full_name;
+                            state.insuranceData.visa_eid = res.data.emirates_id_number;
+                            state.insuranceData.visa_passport = res.data.passport_number;
+                        }
 
                         setTimeout(() => {
                             document.getElementById('view-review').classList.remove('hidden');
                             document.body.classList.add('modal-open');
-                            renderReviewForm();
+                            renderReviewForm(type);
                         }, 500);
                     } else {
                         addChatBubble(t('upload_failed'), 'bot');
                     }
-
                 } catch (err) {
                     addChatBubble(t('upload_error'), 'bot');
                 }
             };
-
             input.click();
         }
 
-        // --- OCR & REVIEW ---
-        // processMockOCR removed - using backend
-
-        function renderReviewForm() {
+        function renderReviewForm(type = 'eid') {
             const container = document.getElementById('review-form');
             const data = state.insuranceData;
 
-            // Update UI Static elements
             document.getElementById('review-modal-subtitle').innerText = t('verification_title');
             document.getElementById('review-modal-title').innerText = t('review_details_title');
             document.getElementById('review-modal-badge').innerText = t('extracted_label');
@@ -1972,182 +2209,257 @@
             document.getElementById('review-modal-confirm').innerText = t('confirm_btn');
             document.getElementById('review-modal-cancel').innerText = t('close_btn');
 
-            const createField = (key, label, type = 'text', readonly = false) => `
+            const createField = (key, label, value, type = 'text', readonly = false, required = true) => `
                 <div class="group">
-                    <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider group-focus-within:text-brand-500 transition-colors">${label}</label>
-                    <input type="${type}" id="review-${key}" value="${data[key] || ''}" ${readonly ? 'readonly' : ''} 
+                    <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider group-focus-within:text-brand-500 transition-colors">${label} ${required ? '<span class="text-red-500">*</span>' : ''}</label>
+                    <input type="${type}" id="review-${key}" value="${value || ''}" ${readonly ? 'readonly' : ''} ${required ? 'required' : ''}
                     class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 font-semibold focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 focus:outline-none transition-all ${readonly ? 'bg-slate-100 text-slate-500 cursor-not-allowed' : ''}">
                 </div>
             `;
 
-            const createSelect = (key, label, options) => `
+            const createSelect = (key, label, currentVal, options) => `
                  <div class="group">
                     <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider group-focus-within:text-brand-500 transition-colors">${label}</label>
                     <div class="relative">
                         <select id="review-${key}" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 font-semibold focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 focus:outline-none transition-all appearance-none">
-                            ${options.map(o => `<option value="${o.value}" ${data[key] === o.value ? 'selected' : ''}>${o.label}</option>`).join('')}
+                            ${options.map(o => `<option value="${o.value}" ${currentVal === o.value ? 'selected' : ''}>${o.label}</option>`).join('')}
                         </select>
                         <i data-lucide="chevron-down" class="absolute right-4 top-4 w-4 h-4 text-slate-400 pointer-events-none"></i>
                     </div>
                 </div>
             `;
 
-            container.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" ${isRTL() ? 'dir="rtl"' : ''}>
-                    ${createField('name', t('name'))}
-                    ${createField('eid', t('eid_no'), 'text', true)}
-                    
-                    ${createField('date_of_birth', t('dob'), 'date')}
-                    ${createField('nationality', t('nationality'))}
-                    
-                    ${createField('issuing_date', t('issuing_date'), 'date')}
-                    ${createField('expiry', t('expiry_date'), 'date')}
-                    
-                    ${createSelect('issuingPlace', t('issuing_place'), [
-                { label: 'Dubai', value: 'Dubai' },
-                { label: 'Abu Dhabi', value: 'Abu Dhabi' },
-                { label: 'Sharjah', value: 'Sharjah' },
-                { label: 'Ajman', value: 'Ajman' },
-                { label: 'Fujairah', value: 'Fujairah' },
-                { label: 'Ras Al Khaimah', value: 'Ras Al Khaimah' },
-                { label: 'Umm Al Quwain', value: 'Umm Al Quwain' }
-            ])}
-                    ${createSelect('gender', t('gender'), [
-                { label: t('male'), value: 'Male' },
-                { label: t('female'), value: 'Female' }
-            ])}
-                    
-                    <div class="md:col-span-2">
-                         ${createField('occupation', t('occupation'))}
-                    </div>
-                    
-                    <div class="md:col-span-2">
-                         ${createField('sponsor_name', t('sponsor'))}
-                    </div>
-                    
-                    <div class="group md:col-span-2">
-                         <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider group-focus-within:text-brand-500 transition-colors">${t('mobile_number_label')}</label>
-                         <div class="flex">
-                            <span class="p-3.5 bg-slate-100 border border-r-0 border-slate-200 rounded-l-xl text-sm font-semibold text-slate-500">+971</span>
-                            <input type="tel" id="review-mobile" placeholder="50 123 4567" value="${data.mobile_number || ''}" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-r-xl text-sm text-slate-800 font-semibold focus:border-brand-500 focus:border-l-slate-200 focus:ring-4 focus:ring-brand-500/10 focus:outline-none transition-all">
+            if (type === 'eid') {
+                const sponsorLabel = state.insuranceData.type === 'Employee' ? 'Employer' : t('sponsor');
+
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" ${isRTL() ? 'dir="rtl"' : ''}>
+                        ${createField('name', t('name'), data.name)}
+                        ${createField('eid', t('eid_no'), data.eid, 'text', true)}
+                        ${createField('date_of_birth', t('dob'), data.date_of_birth, 'date')}
+                        ${createField('nationality', t('nationality'), data.nationality)}
+                        ${createField('issuing_date', t('issuing_date'), data.issuing_date, 'date')}
+                        ${createField('expiry', t('expiry_date'), data.expiry, 'date', true)}
+                        ${createSelect('issuingPlace', t('issuing_place'), data.issuingPlace, [
+                    { label: 'Dubai', value: 'Dubai' },
+                    { label: 'Abu Dhabi', value: 'Abu Dhabi' },
+                    // { label: 'Sharjah', value: 'Sharjah' },
+                    // { label: 'Ajman', value: 'Ajman' },
+                    // { label: 'Fujairah', value: 'Fujairah' },
+                    // { label: 'Ras Al Khaimah', value: 'Ras Al Khaimah' },
+                    // { label: 'Umm Al Quwain', value: 'Umm Al Quwain' }
+                ])}
+                        ${createSelect('gender', t('gender'), data.gender, [
+                    { label: t('male'), value: 'Male' },
+                    { label: t('female'), value: 'Female' }
+                ])}
+                        <div class="md:col-span-2">${createField('occupation', t('occupation'), data.occupation)}</div>
+                        <div class="md:col-span-2">${createField('sponsor_name', sponsorLabel, data.sponsor_name)}</div>
+                        <div class="group md:col-span-2">
+                             <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider group-focus-within:text-brand-500 transition-colors">${t('mobile_number_label')} <span class="text-red-500">*</span></label>
+                             <div class="flex">
+                                <span class="p-3.5 bg-slate-100 border border-r-0 border-slate-200 rounded-l-xl text-sm font-semibold text-slate-500">+971</span>
+                                <input type="tel" id="review-mobile" placeholder="501234567" value="${data.mobile_number || ''}" maxlength="9"
+                                class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-r-xl text-sm text-slate-800 font-semibold focus:border-brand-500 focus:border-l-slate-200 focus:ring-4 focus:ring-brand-500/10 focus:outline-none transition-all"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)">
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else if (type === 'passport') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" ${isRTL() ? 'dir="rtl"' : ''}>
+                        ${createField('passport_name', t('name'), data.passport_name)}
+                        ${createField('passport_no', t('passport_no_label'), data.passport_no, 'text', true)}
+                        ${createField('passport_dob', t('dob'), data.passport_dob || data.dob, 'date')}
+                        ${createField('passport_expiry', t('expiry_date'), data.passport_expiry, 'date', true)}
+                        ${createField('passport_nationality', t('nationality'), data.passport_nationality)}
+                    </div>
+                `;
+            } else if (type === 'visa') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" ${isRTL() ? 'dir="rtl"' : ''}>
+                        ${createField('visa_name', t('name'), data.visa_name)}
+                        ${createField('visa_file_no', t('visa_file_no_label'), data.visa_no, 'text', true)}
+                        ${createField('visa_eid', t('eid_no'), data.visa_eid, 'text', true)}
+                        ${createField('visa_passport', t('passport_label'), data.visa_passport, 'text', true)}
+                    </div>
+                `;
+            }
             lucide.createIcons();
         }
 
         function cancelReview() {
             document.getElementById('view-review').classList.add('hidden');
             document.body.classList.remove('modal-open');
-            addChatBubble("Review cancelled. Please re-upload.", 'bot');
-            askUpload(); // Re-trigger upload flow
+            addChatBubble(t('review_cancelled'), 'bot');
+            const type = state.insuranceData.uploadType || 'eid';
+            if (type === 'eid') askUpload();
+            if (type === 'passport') askPassportUpload();
+            if (type === 'visa') askVisaUpload();
         }
 
         async function confirmReview() {
-            // Harvest Data
             const data = state.insuranceData;
+            const type = data.uploadType || 'eid';
 
-            // Map input values back to state
-            data.name = document.getElementById('review-name').value;
-            data.eid = document.getElementById('review-eid').value;
-            data.date_of_birth = document.getElementById('review-date_of_birth').value;
-            data.nationality = document.getElementById('review-nationality').value;
-            data.issuing_date = document.getElementById('review-issuing_date').value;
-            data.expiry = document.getElementById('review-expiry').value;
-
-            data.issuingPlace = document.getElementById('review-issuingPlace').value;
-            data.gender = document.getElementById('review-gender').value;
-
-            data.occupation = document.getElementById('review-occupation').value;
-            data.sponsor_name = document.getElementById('review-sponsor_name').value;
-            data.mobile = document.getElementById('review-mobile').value;
-
-            const expiryDate = new Date(data.expiry);
-            const today = new Date();
-
-            if (expiryDate < today) {
-                showAlert('error', t('expired_doc_title'), t('expired_doc_msg'));
-                return;
-            }
-
-            // Enhanced Validation per user request
-            const requiredFields = ['name', 'eid', 'nationality', 'issuingPlace', 'expiry', 'gender', 'occupation', 'sponsor_name'];
-            // Check for empty strings or null
-            const missing = requiredFields.filter(f => !data[f] || (typeof data[f] === 'string' && data[f].trim() === ''));
-
-            if (missing.length > 0) {
-                showAlert('warning', t('missing_info'), t('req_missing'));
-                return;
-            }
-
-            // Mobile Validation
-            const cleanMobile = data.mobile.replace(/\D/g, ''); // Remove non-digits
-
-            // Validation Rules:
-            // 1. Must be 9 digits (after country code +971)
-            // 2. Cannot be all zeros
-            // 3. Must start with 5 (standard UAE mobile prefix)
-            const isValidMobile = /^5\d{8}$/.test(cleanMobile) && !/^0+$/.test(cleanMobile);
-
-            if (!isValidMobile) {
-                showAlert('warning', t('missing_info'), "Please enter a valid 9-digit UAE mobile number starting with 5 (e.g., 501234567).");
-                return;
-            }
-
-            // Close Modal
-            document.getElementById('view-review').classList.add('hidden');
-            document.body.classList.remove('modal-open');
-
-            // Sync updated data to backend (Update application)
-            if (data.applicationId) {
-                const updateData = {
-                    full_name: data.name,
-                    date_of_birth: data.date_of_birth,
-                    issuing_date: data.issuing_date,
-                    expiry_date: data.expiry,
-                    nationality: data.nationality,
-                    issuing_place: data.issuingPlace,
-                    gender: data.gender,
-                    occupation: data.occupation,
-                    sponsor_name: data.sponsor_name,
-                    mobile_number: data.mobile,
-                    status: 'Pending OCR' // Keep as pending until product selection or move to 'Under Review'
-                };
-
-                // We send PATCH to update the application with reviewed details
-                try {
-                    await apiCall(`/insurance/applications/${data.applicationId}/`, 'PATCH', updateData);
-                } catch (e) {
-                    console.error("Auto-save failed", e);
+            // Helper for validation
+            const validateRequired = (id, label) => {
+                const el = document.getElementById(id);
+                if (!el || !el.value.trim()) {
+                    showAlert('warning', t('missing_info'), `${label} is required`);
+                    if (el) el.focus();
+                    return false;
                 }
-            }
+                return true;
+            };
 
-            // Resume Chat
-            presentConfirmedDataInChat();
+            if (type === 'eid') {
+                if (!validateRequired('review-name', t('name'))) return;
+                if (!validateRequired('review-eid', t('eid_no'))) return;
+                if (!validateRequired('review-date_of_birth', t('dob'))) return;
+                if (!validateRequired('review-nationality', t('nationality'))) return;
+                if (!validateRequired('review-issuing_date', t('issuing_date'))) return;
+                if (!validateRequired('review-expiry', t('expiry_date'))) return;
+                if (!validateRequired('review-occupation', t('occupation'))) return;
+
+                // Sponsor/Employer Label
+                const sponsorLabel = state.insuranceData.type === 'Employee' ? 'Employer' : t('sponsor');
+                if (!validateRequired('review-sponsor_name', sponsorLabel)) return;
+
+                // Mobile Validation
+                const mobileInput = document.getElementById('review-mobile');
+                if (!mobileInput || !mobileInput.value.trim()) {
+                    showAlert('warning', t('missing_info'), t('enter_mobile'));
+                    mobileInput.focus();
+                    return;
+                }
+                if (mobileInput.value.length !== 9) {
+                    showAlert('warning', t('missing_info'), 'Mobile number must be exactly 9 digits (excluding +971)');
+                    mobileInput.focus();
+                    return;
+                }
+
+                data.name = document.getElementById('review-name').value;
+                data.eid = document.getElementById('review-eid').value;
+                data.date_of_birth = document.getElementById('review-date_of_birth').value;
+                data.nationality = document.getElementById('review-nationality').value;
+                data.issuing_date = document.getElementById('review-issuing_date').value;
+                data.expiry = document.getElementById('review-expiry').value;
+                data.issuingPlace = document.getElementById('review-issuingPlace').value;
+                data.gender = document.getElementById('review-gender').value;
+                data.occupation = document.getElementById('review-occupation').value;
+                data.sponsor_name = document.getElementById('review-sponsor_name').value;
+                data.mobile = document.getElementById('review-mobile').value;
+
+                if (new Date(data.expiry) < new Date()) {
+                    showAlert('error', t('expired_doc_title'), t('expired_doc_msg'));
+                    return;
+                }
+
+                document.getElementById('view-review').classList.add('hidden');
+                document.body.classList.remove('modal-open');
+
+                if (data.applicationId) {
+                    try {
+                        await apiCall(`/insurance/applications/${data.applicationId}/`, 'PATCH', {
+                            full_name: data.name,
+                            date_of_birth: data.date_of_birth,
+                            issuing_date: data.issuing_date,
+                            expiry_date: data.expiry,
+                            nationality: data.nationality,
+                            issuing_place: data.issuingPlace,
+                            gender: data.gender,
+                            occupation: data.occupation,
+                            sponsor_name: data.sponsor_name,
+                            mobile_number: data.mobile
+                        });
+                    } catch (e) { }
+                }
+                presentConfirmedDataInChat('eid');
+            } else if (type === 'passport') {
+                if (!validateRequired('review-passport_name', t('name'))) return;
+                if (!validateRequired('review-passport_no', t('passport_no_label'))) return;
+                if (!validateRequired('review-passport_dob', t('dob'))) return;
+                if (!validateRequired('review-passport_expiry', t('expiry_date'))) return;
+                if (!validateRequired('review-passport_nationality', t('nationality'))) return;
+
+                data.passport_name = document.getElementById('review-passport_name').value;
+                data.passport_no = document.getElementById('review-passport_no').value;
+                data.passport_dob = document.getElementById('review-passport_dob').value;
+                data.passport_expiry = document.getElementById('review-passport_expiry').value;
+                data.passport_nationality = document.getElementById('review-passport_nationality').value;
+
+                document.getElementById('view-review').classList.add('hidden');
+                document.body.classList.remove('modal-open');
+
+                presentConfirmedDataInChat('passport');
+                setTimeout(() => askVisaUpload(), 1500);
+            } else if (type === 'visa') {
+                if (!validateRequired('review-visa_name', t('name'))) return;
+                if (!validateRequired('review-visa_file_no', t('visa_file_no_label'))) return;
+                if (!validateRequired('review-visa_eid', t('eid_no'))) return;
+                if (!validateRequired('review-visa_passport', t('passport_label'))) return;
+
+                data.visa_name = document.getElementById('review-visa_name').value;
+                data.visa_no = document.getElementById('review-visa_file_no').value;
+                data.visa_eid = document.getElementById('review-visa_eid').value;
+                data.visa_passport = document.getElementById('review-visa_passport').value;
+
+                document.getElementById('view-review').classList.add('hidden');
+                document.body.classList.remove('modal-open');
+
+                presentConfirmedDataInChat('visa');
+                setTimeout(() => finalizeInsurance(data.selectedPlan), 1500);
+            }
         }
 
-        function presentConfirmedDataInChat() {
+        function presentConfirmedDataInChat(type = 'eid') {
             const d = state.insuranceData;
+            let title = t('verified_details');
+            let contentHtml = '';
+
+            if (type === 'eid') {
+                contentHtml = `
+                    <div class="flex justify-between"><span>${t('name')}:</span> <span class="font-bold text-slate-800 text-right">${d.name}</span></div>
+                    <div class="flex justify-between"><span>${t('eid')}:</span> <span class="font-mono text-slate-500 text-right">${d.eid}</span></div>
+                    <div class="flex justify-between"><span>${t('dob')}:</span> <span class="text-right">${d.date_of_birth || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('nationality')}:</span> <span class="text-right">${d.nationality || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('gender')}:</span> <span class="text-right">${d.gender || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('issuing_date')}:</span> <span class="text-right">${d.issuing_date || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('expiry_date')}:</span> <span class="text-right">${d.expiry || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('issuing_place')}:</span> <span class="text-right">${d.issuingPlace || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('occupation')}:</span> <span class="text-right truncate max-w-[150px]">${d.occupation || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('sponsor')}:</span> <span class="text-right truncate max-w-[150px]">${d.sponsor_name || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('mobile')}:</span> <span class="text-right">${d.mobile || '-'}</span></div>
+                `;
+            } else if (type === 'passport') {
+                title = t('passport_details_title');
+                contentHtml = `
+                    <div class="flex justify-between"><span>${t('name')}:</span> <span class="font-bold text-slate-800 text-right">${d.passport_name}</span></div>
+                    <div class="flex justify-between"><span>${t('passport_no_label')}:</span> <span class="font-mono text-slate-500 text-right">${d.passport_no}</span></div>
+                    <div class="flex justify-between"><span>${t('dob')}:</span> <span class="text-right">${d.passport_dob || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('expiry_date')}:</span> <span class="text-right">${d.passport_expiry || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('nationality')}:</span> <span class="text-right">${d.passport_nationality || '-'}</span></div>
+                `;
+            } else if (type === 'visa') {
+                title = t('visa_details_title');
+                contentHtml = `
+                    <div class="flex justify-between"><span>${t('name')}:</span> <span class="font-bold text-slate-800 text-right">${d.visa_name}</span></div>
+                    <div class="flex justify-between"><span>${t('visa_file_no_label')}:</span> <span class="font-mono text-slate-500 text-right">${d.visa_no}</span></div>
+                    <div class="flex justify-between"><span>${t('eid_no_label')}:</span> <span class="font-mono text-slate-500 text-right">${d.visa_eid || '-'}</span></div>
+                    <div class="flex justify-between"><span>${t('passport_label')}:</span> <span class="text-right">${d.visa_passport || '-'}</span></div>
+                `;
+            }
+
             const html = `
                 <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm w-full md:min-w-[300px]" ${isRTL() ? 'dir="rtl"' : ''}>
                     <div class="flex items-center gap-2 mb-3 border-b border-slate-100 pb-2">
                         <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
-                        <span class="text-xs font-bold text-slate-900 uppercase">${t('verified_details')}</span>
+                        <span class="text-xs font-bold text-slate-900 uppercase">${title}</span>
                     </div>
                     <div class="space-y-2 text-xs text-slate-600">
-                        <div class="flex justify-between"><span>${t('name')}:</span> <span class="font-bold text-slate-800 text-right">${d.name}</span></div>
-                        <div class="flex justify-between"><span>${t('eid')}:</span> <span class="font-mono text-slate-500 text-right">${d.eid}</span></div>
-                        <div class="flex justify-between"><span>${t('dob')}:</span> <span class="text-right">${d.date_of_birth || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('nationality')}:</span> <span class="text-right">${d.nationality || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('gender')}:</span> <span class="text-right">${d.gender || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('issuing_date')}:</span> <span class="text-right">${d.issuing_date || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('expiry_date')}:</span> <span class="text-right">${d.expiry || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('issuing_place')}:</span> <span class="text-right">${d.issuingPlace || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('occupation')}:</span> <span class="text-right truncate max-w-[150px]">${d.occupation || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('sponsor')}:</span> <span class="text-right truncate max-w-[150px]">${d.sponsor_name || '-'}</span></div>
-                        <div class="flex justify-between"><span>${t('mobile')}:</span> <span class="text-right">${d.mobile || '-'}</span></div>
-                        <div class="flex justify-between mt-2 pt-2 border-t border-slate-50 text-slate-800 font-bold"><span>${t('salary_range_label')}:</span> <span>${d.salary} AED</span></div>
+                        ${contentHtml}
                     </div>
                 </div>
             `;
@@ -2155,11 +2467,122 @@
             addChatBubble(html, 'bot', true);
             setTimeout(() => lucide.createIcons(), 100);
 
+            if (type === 'eid') {
+                askIncomeVerification(d.issuingPlace);
+            }
+        }
+
+        function startFineCheck() {
             showTyping();
             setTimeout(() => {
-                calculateAndShowProducts();
-            }, 1500);
+                const title = t('fine_check_btn'); // "Fine Check"
+                const msg = t('fine_check_msg'); // "Before continuing..."
+                const btnText = t('fine_check_btn');
+
+                const cardHtml = `
+                    <div id="fine-check-card" class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-[24px] p-6 text-white shadow-lg w-full md:min-w-[320px] fade-in" ${isRTL() ? 'dir="rtl"' : ''}>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                                <i data-lucide="file-search" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div class="${isRTL() ? 'text-right' : ''}">
+                                <h3 class="font-bold text-lg">${title}</h3>
+                                <p class="text-xs text-white/80">${msg}</p>
+                            </div>
+                        </div>
+                        <button id="btn-fine-check" onclick="handleFineCheckCardClick()" class="w-full bg-white text-orange-600 font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:bg-orange-50 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                            ${btnText}
+                        </button>
+                    </div>
+                `;
+
+                addChatBubble(cardHtml, 'bot', true);
+                setTimeout(() => lucide.createIcons(), 100);
+            }, 800);
         }
+
+        window.handleFineCheckCardClick = async () => {
+            const btn = document.getElementById('btn-fine-check');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> ${t('checking_fines') || 'Checking...'}`;
+                lucide.createIcons();
+            }
+
+            // Simulate processing
+            setTimeout(() => {
+                if (btn) {
+                    btn.innerHTML = `<i data-lucide="check" class="w-5 h-5"></i> ${t('no_fines_found') || 'Verified'}`;
+                    btn.className = "w-full bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-inner cursor-default";
+                    lucide.createIcons();
+                }
+
+                // Proceed
+                setTimeout(() => {
+                    addChatBubble(t('no_fines_found'), 'bot');
+                    setTimeout(() => startMOHValidation(), 1000);
+                }, 500);
+            }, 2500);
+        }
+
+        // Deprecated old handler, kept if needed or removed
+        window.handleFineCheck = () => { };
+
+        function startMOHValidation() {
+            showTyping();
+            setTimeout(() => {
+                const title = t('moh_validation_btn'); // "MOH Validation"
+                const msg = t('moh_validation_msg');
+                const btnText = t('moh_validation_btn');
+
+                const cardHtml = `
+                    <div id="moh-check-card" class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[24px] p-6 text-white shadow-lg w-full md:min-w-[320px] fade-in" ${isRTL() ? 'dir="rtl"' : ''}>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                                <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div class="${isRTL() ? 'text-right' : ''}">
+                                <h3 class="font-bold text-lg">${title}</h3>
+                                <p class="text-xs text-white/80">${msg}</p>
+                            </div>
+                        </div>
+                        <button id="btn-moh-check" onclick="handleMOHCardClick()" class="w-full bg-white text-indigo-600 font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:bg-indigo-50 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                            ${btnText}
+                        </button>
+                    </div>
+                `;
+
+                addChatBubble(cardHtml, 'bot', true);
+                setTimeout(() => lucide.createIcons(), 100);
+            }, 800);
+        }
+
+        window.handleMOHCardClick = async () => {
+            const btn = document.getElementById('btn-moh-check');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> ${t('validating_moh') || 'Validating...'}`;
+                lucide.createIcons();
+            }
+
+            // Simulate processing
+            setTimeout(() => {
+                if (btn) {
+                    btn.innerHTML = `<i data-lucide="check" class="w-5 h-5"></i> ${t('moh_success') || 'Success'}`;
+                    btn.className = "w-full bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-inner cursor-default";
+                    lucide.createIcons();
+                }
+
+                // Proceed
+                setTimeout(() => {
+                    addChatBubble(t('moh_success'), 'bot');
+                    setTimeout(() => calculateAndShowProducts(), 1000);
+                }, 500);
+            }, 2500);
+        }
+
+        // Deprecated old handler
+        window.handleMOHValidation = () => { };
 
         async function calculateAndShowProducts() {
             const place = state.insuranceData.issuingPlace;
@@ -2227,15 +2650,167 @@
         // Product Selection Logic
         async function selectProduct(plan) {
             await addChatBubble(t('select_plan_msg', plan.name, plan.type), 'user');
+            state.insuranceData.selectedPlan = plan; // Store for later
             showTyping();
 
             setTimeout(() => {
-                finalizeInsurance(plan);
+                askMedicalConditions();
             }, 1000);
         }
 
+        function askMedicalConditions() {
+            showTyping();
+            setTimeout(() => {
+                addChatBubble(t('medical_q_init'));
+                setInputOptions([
+                    { label: t('yes'), value: 'yes' },
+                    { label: t('no'), value: 'no' }
+                ], 'handleMedicalConditions');
+            }, 800);
+        }
+
+        window.handleMedicalConditions = async (val, label) => {
+            await addChatBubble(label, 'user');
+            hideInputOptions();
+            state.insuranceData.has_medical_conditions = (val === 'yes');
+
+            if (val === 'yes') {
+                startMAFQuestionnaire();
+            } else {
+                askPassportUpload(); // Proceed to passport
+            }
+        }
+
+        let currentMafIndex = 0;
+        let mafResponses = {};
+
+        function updateMafProgress(current, total) {
+            const container = document.getElementById('maf-progress-container');
+            const bar = document.getElementById('maf-progress-bar');
+            const text = document.getElementById('maf-progress-text');
+            const percent = document.getElementById('maf-progress-percent');
+
+            if (!container) return;
+
+            if (current > total) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            // Calculate percentage based on completed questions (current - 1) or current step?
+            // "Question 1 of 9" usually means we are at the beginning.
+            // Let's visualize progress as "How much of the form is done".
+            // At Q1, 0% is done? Or 11% (current step)?
+            // Let's use (current / total) * 100 for a "Step X" visual.
+            const p = Math.round((current / total) * 100);
+            bar.style.width = `${p}%`;
+            text.innerText = t('question_progress', current, total);
+            percent.innerText = `${p}%`;
+        }
+
+        function getMafQuestions() {
+            return [
+                t('maf_q1'),
+                t('maf_q2'),
+                t('maf_q3'),
+                t('maf_q4'),
+                t('maf_q5'),
+                t('maf_q6'),
+                t('maf_q7'),
+                t('maf_q8'),
+                t('maf_q9')
+            ];
+        }
+
+        function startMAFQuestionnaire() {
+            currentMafIndex = 0;
+            mafResponses = {};
+            showTyping();
+
+            const total = getMafQuestions().length;
+            updateMafProgress(1, total);
+
+            setTimeout(() => {
+                addChatBubble(`<b>${t('maf_q_title')}</b><br>${t('maf_q_intro')}`, 'bot', true);
+                askNextMafQuestion();
+            }, 1000);
+        }
+
+        function askNextMafQuestion() {
+            const questions = getMafQuestions();
+            if (currentMafIndex < questions.length) {
+                updateMafProgress(currentMafIndex + 1, questions.length);
+                showTyping();
+                setTimeout(() => {
+                    addChatBubble(`${currentMafIndex + 1}. ${questions[currentMafIndex]}`);
+                    setInputOptions([
+                        { label: t('yes'), value: 'yes' },
+                        { label: t('no'), value: 'no' }
+                    ], 'handleMafAnswer');
+                }, 800);
+            } else {
+                // Done with MAF
+                updateMafProgress(questions.length + 1, questions.length);
+                state.insuranceData.maf_responses = mafResponses;
+                showTyping();
+                setTimeout(() => {
+                    addChatBubble(t('maf_completed'));
+                    setTimeout(() => askPassportUpload(), 1000);
+                }, 1000);
+            }
+        }
+
+        window.handleMafAnswer = async (val, label) => {
+            await addChatBubble(label, 'user');
+            hideInputOptions();
+            mafResponses[`q${currentMafIndex + 1}`] = val;
+            currentMafIndex++;
+            askNextMafQuestion();
+        }
+
+        function askPassportUpload() {
+            showTyping();
+            setTimeout(() => {
+                addChatBubble(t('passport_upload_prompt'), 'bot', true);
+                setInputOptions([
+                    { label: t('btn_upload_passport'), value: 'upload_passport' }
+                ], 'handlePassportUploadBtn');
+            }, 1000);
+        }
+
+        window.handlePassportUploadBtn = () => {
+            simulateUpload('passport');
+        }
+
+        function askVisaUpload() {
+            showTyping();
+            setTimeout(() => {
+                addChatBubble(t('visa_upload_prompt'), 'bot', true);
+                setInputOptions([
+                    { label: t('btn_upload_visa'), value: 'upload_visa' }
+                ], 'handleVisaUploadBtn');
+            }, 1000);
+        }
+
+        window.handleVisaUploadBtn = () => {
+            simulateUpload('visa');
+        }
+
         async function finalizeInsurance(plan) {
-            // Call Backend Create Policy
+            // 1. Save Medical Data to Application
+            if (state.insuranceData.applicationId) {
+                try {
+                    await apiCall(`/insurance/applications/${state.insuranceData.applicationId}/`, 'PATCH', {
+                        has_medical_conditions: state.insuranceData.has_medical_conditions,
+                        maf_responses: state.insuranceData.maf_responses
+                    });
+                } catch (e) {
+                    console.error("Failed to save medical data", e);
+                }
+            }
+
+            // 2. Call Backend Create Policy
             const payload = {
                 application_id: state.insuranceData.applicationId,
                 plan_name: plan.name,
@@ -2276,7 +2851,7 @@
                 // Refresh policies
                 fetchPolicies();
             } else {
-                addChatBubble("Policy creation failed: " + res.message, 'bot');
+                addChatBubble(t('policy_failed') + res.message, 'bot');
             }
         }
 
@@ -2534,6 +3109,12 @@
 
             container.innerHTML = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2" ${isRTL() ? 'dir="rtl"' : ''}>
+                    
+                    <div class="md:col-span-2 pb-2 mb-2 border-b border-slate-50">
+                        <div class="text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-wider">Application Type</div>
+                        <div class="text-sm text-slate-800 font-semibold">${app.application_type} ${app.dependent_type ? `(${app.dependent_type})` : ''}</div>
+                    </div>
+
                     ${createField(t('name'), app.full_name)}
                     ${createField(t('eid'), app.emirates_id)}
                     
@@ -2557,6 +3138,25 @@
                     <div class="md:col-span-2">
                         ${createField(t('mobile'), app.mobile_number)}
                     </div>
+
+                    <!-- Passport Details Section -->
+                    ${app.passport_number ? `
+                    <div class="md:col-span-2 mt-4 pt-2 border-t border-slate-100">
+                        <div class="text-xs font-bold text-slate-900 uppercase mb-2">Passport Details</div>
+                    </div>
+                    ${createField(t('passport_no_label'), app.passport_number)}
+                    ${createField(t('expiry_date'), app.passport_expiry_date)}
+                    ` : ''}
+
+                    <!-- Visa Details Section -->
+                    ${app.visa_number ? `
+                    <div class="md:col-span-2 mt-4 pt-2 border-t border-slate-100">
+                        <div class="text-xs font-bold text-slate-900 uppercase mb-2">Visa Details</div>
+                    </div>
+                    ${createField(t('visa_file_no_label'), app.visa_number)}
+                    ${createField(t('expiry_date'), app.visa_expiry_date)}
+                    ` : ''}
+
                 </div>
                 
                 <div class="mt-6 pt-6 border-t border-slate-100">
